@@ -19,7 +19,7 @@ function setup() {
     textSize(32);
     fill(0, 102, 153);
     text(String(room_name), 100, 100);
-    socket=io.connect('http://localhost:3000');
+    socket=io.connect();
     var data={
         room: room_name
     }

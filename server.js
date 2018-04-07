@@ -11,6 +11,7 @@ function newConnection(socket){
     console.log("user: "+socket.id);
     socket.on('room', function(data) {
 
+      //  console.log("data.rooom : " + data.room);
         socket.join(data.room,function(){
             //  console.log(myMap);
             //  console.log("Hiiiiiiiiiii");
@@ -19,7 +20,8 @@ function newConnection(socket){
               var xs = Array.from(m.keys());
               var ys = Array.from(m.values());
               for (var i = 0; i < xs.length; i++) {
-                io.sockets.in(data.room).emit('mouse', {x: xs[i], y: ys[i] , room:data.room});
+              //  console.log("Helloooo : " + socket.id);
+                socket.emit('mouse', {x: xs[i], y: ys[i] , room:data.room});
               }
           //    console.log(xs);
           //    console.log(ys);
@@ -32,7 +34,9 @@ function newConnection(socket){
     });
 
     socket.on('mouse',function(data){
-        io.sockets.in(data.room).emit('mouse', data);
+
+      // this works as expected: all clients receive event except the sender
+        socket.broadcast.to(data.room).emit('mouse',data);
         myMap[data["room"]] = myMap[data["room"]] || [];
         myMap[data["room"]].push([data["x"],data["y"]]);
       //  console.log(myMap);

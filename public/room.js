@@ -34,7 +34,7 @@ function newDrawing(data){
     ellipse(data.x,data.y,40,40);
 }
 
-function mousePressed(){
+function mouseDragged(){
     var data={
         x: mouseX,
         y: mouseY,
